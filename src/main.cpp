@@ -1,7 +1,9 @@
 #include <iostream>
+#include <cstdlib>
 #include <fstream>
 #include <vector> 
 #include <cstring> 
+#include <stdlib.h>
 #include "../lib/libx.h"
 #include "../lib/estructuras.h"
 
@@ -9,14 +11,14 @@ using namespace std;
 
 struct usuario verPersona;
 vector<usuario> persona;
-const string fileDir = "../datos/base.txt";
+const string fileDir = "datos/base.txt";
 
 //------------------------------------------------------------------------------------------------
 void loadInfo(){
 	string nombre;
 	fstream fBase(fileDir);
-
-	cout<<endl<< "Load Information...!"<<endl;
+	
+	cout<<endl<< "CARGANDO SISTEMA...!"<<endl;
 	if(!fBase)
 		cout<< "Error al abrir el archivo" << fileDir << endl;
 	
@@ -46,7 +48,9 @@ void showInfo(){
 
 //------------------------------------------------------------------------------------------------
 bool existReg(int numero){
+	
 	bool ban=false;
+	
 	for (auto &&e : persona)
 		if(e.numTarjeta == numero){
 			cout<<"*"<< e.nombre <<"* Bienvenido a tu cajero de confianza"<<endl;
@@ -70,13 +74,32 @@ bool verificarPin(int pin){
 }
 
 //------------------------------------------------------------------------------------------------
-void retDinero(){}
-void depDinero(){}
-void traDinero(){}
-void conDinero(){}
+void retDinero(){ 
+	cout<< endl<< "*** RETIRAR DINERO ***";
+	cout<< endl<< "No disponible por el momento"<<endl;
+}
+
+//------------------------------------------------------------------------------------------------
+void depDinero(){ 
+	cout<< endl<<"*** DEPOSITAR DINERO ***";
+	cout<< endl<< "No disponible por el momento"<<endl;
+}
+
+//------------------------------------------------------------------------------------------------
+void traDinero(){ 
+	cout<< endl<< "*** TRANSFERIR DINERO ***";
+	cout<< endl<< "No disponible por el momento"<<endl;
+}
+
+//------------------------------------------------------------------------------------------------
+void conDinero(){ 
+	cout<< endl<< "*** CONSULTAR SALDO ***";
+	cout<< endl<< "No disponible por el momento"<<endl;
+}
 
 //------------------------------------------------------------------------------------------------
 int getOp(){
+	
 	int op;
 	do{
 		cout<<endl<<"***** POLICAJERO *****"<<endl
@@ -96,12 +119,15 @@ int getOp(){
 //************************************************************************************************
 int main(){
 	int numeroDeTarjeta, PIN, cont=1;
+	
 	loadInfo();
 	showInfo();
+	
 	cout<<"Ingrese su número de tarjeta > ";	cin>> numeroDeTarjeta;
 	if(existReg(numeroDeTarjeta)== true){
 		cout<<endl<<"Ingrese su PIN > ";	cin>> PIN;
 		while(verificarPin(PIN) == false && cont<3){
+			limpiarPantalla();
 			cout<<endl<<"Pin Incorrecto"<<endl;
 			cout<<endl<<"Ingrese nuevamente su PIN > ";	cin>> PIN;
 			cont++;
@@ -118,15 +144,15 @@ int main(){
 				case depositar	: depDinero(); 				break;
 				case transferir	: traDinero();				break;
 				case saldo		: conDinero();				break;
-				case salir 		: cout<< "* Gracias por usar el POLICAJERO *"<<endl;
-									exit(1);				break;
+				case salir 		: cout<< "Saliendo..."<<endl<<"* Gracias por usar el POLICAJERO *"<<endl;
+								  exit(1);					break;
 
-				default:  cout<<endl<< "Opción no válida..!"<<endl;		break;
+				default:  		  cout<<endl<< "Opción no válida..!"<<endl;		break;
 			}
 		}while(true);
 	}else
 		cout<<"Lo sentimos, no estás registrado para usar el Plicajero"<<endl;
-	
+
 	cout<< "Gracias por utilizar el Policajero"<<endl;
 	return 0;
 }
