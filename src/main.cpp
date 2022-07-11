@@ -4,6 +4,7 @@
 #include <vector> 
 #include <cstring> 
 #include <stdlib.h>
+#include <windows.h>
 #include "../lib/libx.h"
 #include "../lib/estructuras.h"
 
@@ -11,14 +12,14 @@ using namespace std;
 
 struct usuario verPersona;
 vector<usuario> persona;
-const string fileDir = "datos/base.txt";
+const string fileDir = "../datos/base.txt";
 
 //------------------------------------------------------------------------------------------------
 void loadInfo(){
 	string nombre;
 	fstream fBase(fileDir);
 	
-	cout<<endl<< "CARGANDO SISTEMA...!"<<endl;
+	cout<<endl<< "CARGANDO SISTEMA OK!"<<endl;
 	if(!fBase)
 		cout<< "Error al abrir el archivo" << fileDir << endl;
 	
@@ -77,24 +78,29 @@ bool verificarPin(int pin){
 void retDinero(){ 
 	cout<< endl<< "*** RETIRAR DINERO ***";
 	cout<< endl<< "No disponible por el momento"<<endl;
+	system("PAUSE");
 }
 
 //------------------------------------------------------------------------------------------------
 void depDinero(){ 
 	cout<< endl<<"*** DEPOSITAR DINERO ***";
 	cout<< endl<< "No disponible por el momento"<<endl;
+	system("PAUSE");
 }
 
 //------------------------------------------------------------------------------------------------
 void traDinero(){ 
 	cout<< endl<< "*** TRANSFERIR DINERO ***";
 	cout<< endl<< "No disponible por el momento"<<endl;
+	system("PAUSE");
 }
 
 //------------------------------------------------------------------------------------------------
 void conDinero(){ 
+	system("cls");
 	cout<< endl<< "*** CONSULTAR SALDO ***";
 	cout<< endl<< "No disponible por el momento"<<endl;
+	system("PAUSE");
 }
 
 //------------------------------------------------------------------------------------------------
@@ -121,21 +127,22 @@ int main(){
 	int numeroDeTarjeta, PIN, cont=1;
 	
 	loadInfo();
-	showInfo();
+	//showInfo();
 	
-	cout<<"Ingrese su número de tarjeta > ";	cin>> numeroDeTarjeta;
+	cout<<"Ingrese su numero de tarjeta > ";	cin>> numeroDeTarjeta;
 	if(existReg(numeroDeTarjeta)== true){
 		cout<<endl<<"Ingrese su PIN > ";	cin>> PIN;
 		while(verificarPin(PIN) == false && cont<3){
-			limpiarPantalla();
+			system("cls");
 			cout<<endl<<"Pin Incorrecto"<<endl;
 			cout<<endl<<"Ingrese nuevamente su PIN > ";	cin>> PIN;
 			cont++;
 		}
 		if(cont==3){
-			cout<<"Lo sentimos, has superado el límite de intentos"<<endl;
+			system("cls");
+			cout<<"Lo sentimos, has superado el limite de intentos"<<endl;
 			cout<< "Gracias por utilizar el Policajero"<<endl;
-			exit(EXIT_FAILURE);
+			system("PAUSE");	exit(EXIT_FAILURE);
 		}
 
 		do{		
@@ -144,15 +151,19 @@ int main(){
 				case depositar	: depDinero(); 				break;
 				case transferir	: traDinero();				break;
 				case saldo		: conDinero();				break;
-				case salir 		: cout<< "Saliendo..."<<endl<<"* Gracias por usar el POLICAJERO *"<<endl;
-								  exit(1);					break;
+				case salir 		: system("cls");
+								  cout<< "Saliendo..."<<endl<<"* Gracias por usar el POLICAJERO *"<<endl;
+								  system("PAUSE"); exit(EXIT_FAILURE);
+			  					  break;
 
-				default:  		  cout<<endl<< "Opción no válida..!"<<endl;		break;
+				default:  		  cout<<endl<< "Opcion no valida..!"<<endl;		break;
 			}
 		}while(true);
-	}else
-		cout<<"Lo sentimos, no estás registrado para usar el Plicajero"<<endl;
-
+	}else{
+		system("cls");
+		cout<<"Lo sentimos, no estas registrado para usar el Policajero"<<endl; 
+	}
 	cout<< "Gracias por utilizar el Policajero"<<endl;
 	return 0;
+	system("PAUSE");
 }
